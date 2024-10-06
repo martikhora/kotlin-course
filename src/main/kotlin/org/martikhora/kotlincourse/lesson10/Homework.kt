@@ -1,7 +1,5 @@
 package org.martikhora.kotlincourse.lesson10
 
-import java.util.Arrays
-
 class Homework {
 
     //    Работа с массивами Array
@@ -140,47 +138,132 @@ class Homework {
 //    Задание 1: Создание Пустого Списка
 //    Создайте пустой неизменяемый список целых чисел.
 
+    fun emptyList() {
+        val emptyList = listOf<Int>()
+    }
+
 
 //    Задание 2: Создание и Инициализация Списка
 //    Создайте неизменяемый список строк, содержащий три элемента (например, "Hello", "World", "Kotlin").
 
+    fun listOfStrings() {
+        val stringsArray = listOf("Hello", "World", "Kotlin")
+    }
 
-//    Задание 3: Создание Изменяемого Списка
+
+    //    Задание 3: Создание Изменяемого Списка
 //    Создайте изменяемый список целых чисел и инициализируйте его значениями от 1 до 5.
+    fun listOfInts() {
+        val listOfInts = mutableListOf<Int>()
+
+        for (i in 0..4) listOfInts.add(i, i + 1)
+
+        println(listOfInts)
+    }
 
 
 //    Задание 4: Добавление Элементов в Список
 //    Имея изменяемый список целых чисел, добавьте в него новые элементы (например, 6, 7, 8).
 
+    fun listOfIntsExpanded(list: MutableList<Int>) {
+        list.add(6)
+        list.add(7)
+        list.add(8)
+    }
+
 
 //    Задание 5: Удаление Элементов из Списка
 //    Имея изменяемый список строк, удалите из него определенный элемент (например, "World").
+
+    fun removeFromList(list: MutableList<String>) {
+        list.remove("World")
+    }
 
 
 //    Задание 6: Перебор Списка в Цикле
 //    Создайте список целых чисел и используйте цикл для вывода каждого элемента на экран.
 
+    fun loop() {
+        val list = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+        for (value in list) {
+            println(value)
+        }
+    }
+
 
 //    Задание 7: Получение Элементов Списка по Индексу
 //    Создайте список строк и получите из него второй элемент, используя его индекс.
+
+    fun getString() {
+        val list = listOf<String>("Hello", "World", "Kotlin", "Java", "Scala")
+        println(list[1])
+    }
 
 
 //    Задание 8: Перезапись Элементов Списка по Индексу
 //    Имея изменяемый список чисел, измените значение элемента на определенной позиции
 //    (например, замените элемент на позиции 2 на новое значение).
 
+    fun changeElement() {
+        val list = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        list.removeAt(2)
+        list.add(2, 99)
+        println(list)
 
-//    Задание 9: Объединение Двух Списков
+    }
+
+
+    //    Задание 9: Объединение Двух Списков
 //    Создайте два списка строк и объедините их в один новый список, содержащий элементы обоих списков.
 //    Реши задачу с помощью циклов.
+    fun unite() {
+        val list1 = listOf("Hello", "Java")
+        val list2 = listOf("World", "Kotlin")
+        val newList = mutableListOf<String>()
+        for (value in list1) {
+            newList.add(value)
+        }
+        for (value in list2) {
+            newList.add(value)
+        }
+        println(newList)
+    }
 
 
 //    Задание 10: Нахождение Минимального/Максимального Элемента
 //    Создайте список целых чисел и найдите в нем минимальный и максимальный элементы используя цикл.
 
+    fun minAndMax() {
+        val list = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        var min = list[0]
+        var max = list[0]
 
-//    Задание 11: Фильтрация Списка
+        for (value in list) {
+            if (value < min) {
+                min = value
+            }
+            if (value > max) {
+                max = value
+            }
+        }
+    }
+
+
+    //    Задание 11: Фильтрация Списка
 //    Имея список целых чисел, создайте новый список, содержащий только четные числа из исходного списка используя цикл.
+    fun evensOnly(list: List<Int>) {
+
+        val listOfEvens = mutableListOf<Int>()
+
+        for (value in list) {
+            if (value % 2 == 0) {
+                listOfEvens.add(value)
+            }
+        }
+        println(listOfEvens)
+
+    }
 
 //    Работа с Множествами Set
 //    Задание 1: Создание Пустого Множества
