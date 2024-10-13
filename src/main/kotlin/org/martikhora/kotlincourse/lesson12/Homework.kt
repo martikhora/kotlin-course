@@ -104,4 +104,36 @@ class Homework {
             println(i)
         }
     }
+
+    //Рефакторинг
+    fun drawRectangle(width: Int, height: Int) {
+        isPositive(width, height)
+        createFloor(width)
+        createWalls(width, height)
+        createFloor(width)
+    }
+
+    private fun isPositive (width: Int, height: Int){
+        if (width <= 0) throw IllegalArgumentException("width должно быть положительным и больше нуля")
+        if (height <= 0) throw IllegalArgumentException("height должно быть положительным и больше нуля")
+    }
+
+    private fun createFloor(width: Int){
+        var topLine = "+"
+        for (i in 1 until width - 1) {
+            topLine += "-"
+        }
+        topLine += "+\n"
+        print(topLine)
+    }
+    private fun createWalls(width: Int, height: Int) {
+        for (i in 1 until height - 1) {
+            var middleLine = "|"
+            for (j in 1 until width - 1) {
+                middleLine += " "
+            }
+            middleLine += "|\n"
+            print(middleLine)
+        }
+    }
 }
