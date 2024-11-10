@@ -1,4 +1,4 @@
 package org.martikhora.kotlincourse.lesson20.homework
 
-abstract class Watch {
+abstract class Watch : Timeable {
 }
