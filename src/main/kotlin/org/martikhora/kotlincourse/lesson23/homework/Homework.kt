@@ -25,30 +25,28 @@ class Homework {
     fun squareNumber(value: Any): Double {
         return when (value) {
             is Number -> value.toDouble() * value.toDouble() // если это число, возводим в квадрат
-            is String -> value.toDoubleOrNull()?.let { it * it }
-                ?: 0.0 // пробуем преобразовать строку в число и возвести в квадрат
+            is String -> {
+                val squared = value.toDoubleOrNull() ?: 0.0
+                squared * squared
+            } // пробуем преобразовать строку в число и возвести в квадрат
             else -> 0.0 // если не число и не строка, возвращаем 0.0
         }
     }
 
-    fun sumIntOrDoubleValues(values: List<Any>): Double {
-        return values.filterIsInstance<Number>()
-            .sumOf { it.toDouble() } // фильтруем числа, преобразуем в double и вычисляем сумму
+    fun sumIntOrDoubleValues(values: List<Any?>): Double {
+        return values.map {
+            when (it) {
+                is Double -> it
+                is Int -> it.toDouble()
+                else -> 0.0
+            }
+        }.sum()
     }
 
-    fun tryCastToListAndPrint(value: Any?) {
-        val list = value as? List<*>
-        if (list != null) {
-            // если приведение получилоось, обрабатываем каждый элемент
-            for (element in list) {
-                when (element) {
-                    is String -> println(element) // если строка, то печатаем
-                    else -> println("Элемент не является строкой: $element")
-                }
-            }
-        } else {
-            // если приведение не удалось, выводим сообщение об ошибке
-            println("Ошибка: Значение не является списком.")
-        }
+    fun tryCastToListAndPrint(value: Any) {
+        (value as? List<*>)?.forEach {
+            val result = (it as? String) ?: "Элемент не является строкой: $it"
+            println(result)
+        } ?: println("Ошибка: Значение не является списком.")
     }
 }
