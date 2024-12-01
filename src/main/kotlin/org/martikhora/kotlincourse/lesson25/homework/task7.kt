@@ -52,8 +52,6 @@ val printAndConcatLambda: (Map<List<Any>, Set<Any>>) -> String = { map ->
     val shortValue: Short = 30000
     val longValue = 100000L
     val floatValue = 15.5f
-    val anotherString = "This is another string."
-    val anotherSet = setOf("value1", "value2")
 
     for ((key, value) in map) {
         result += "List Key: ${key.joinToString(", ")}; Set Value: ${value.joinToString(", ")}\n"
@@ -86,8 +84,6 @@ val printAndConcatLambdaNoType = { map: Map<List<Any>, Set<Any>> ->
     val shortValue: Short = 30000
     val longValue = 100000L
     val floatValue = 15.5f
-    val anotherString = "This is another string."
-    val anotherSet = setOf("value1", "value2")
 
     for ((key, value) in map) {
         result += "List Key: ${key.joinToString(", ")}; Set Value: ${value.joinToString(", ")}\n"
