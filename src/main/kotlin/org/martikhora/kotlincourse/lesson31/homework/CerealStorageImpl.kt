@@ -1,5 +1,6 @@
 package org.martikhora.kotlincourse.lesson31.homework
 
+
 class CerealStorageImpl(
     override val containerCapacity: Float,
     override val storageCapacity: Float
@@ -15,65 +16,56 @@ class CerealStorageImpl(
         }
     }
 
-    private val storage = mutableMapOf<Cereal, Float>()
-    private var totalContainers = 0
-
+    private val containers = mutableMapOf<Cereal, Float>() //что лежит в контейнере + сколько
     override fun addCereal(cereal: Cereal, amount: Float): Float {
-        if (amount < 0) throw IllegalArgumentException("Количество не может быть отрицательным")
-        val currentAmount = storage.getOrDefault(cereal, 0f)
-        val spaceLeft = getSpace(cereal)
+        require(amount >= 0) { "Количество не может быть отрицательным" }
 
-        return if (spaceLeft >= amount) {
-            storage[cereal] = currentAmount + amount
-            0f
+        val currentAmount = containers.getOrDefault(cereal, 0f) //сколько контейнеров есть
+        val availableSpace = getSpace(cereal) //проверяем, сколько места в контейнере
+
+        return if (availableSpace >= amount) { //если доступное место больше или равно количеству
+            containers[cereal] = currentAmount + amount
+            0f //возвращаем 0, все добавлено, остатка нет
         } else {
-            if (totalContainers + 1 > storageCapacity / containerCapacity) {
-                throw IllegalStateException("Хранилище не позволяет разместить ещё один контейнер")
-            }
-            storage[cereal] = containerCapacity
-            totalContainers++
-            amount - spaceLeft
+            containers[cereal] = currentAmount + availableSpace
+            amount - availableSpace // возвращаем остаток
         }
     }
 
     override fun getCereal(cereal: Cereal, amount: Float): Float {
-        if (amount < 0) throw IllegalArgumentException("Количество не может быть отрицательным")
+        require(amount >= 0) { "Количество не может быть отрицательным" }
 
-        val currentAmount = storage.getOrDefault(cereal, 0f)
-        return if (currentAmount >= amount) {
-            storage[cereal] = currentAmount - amount
-            amount
+        val currentAmount = containers.getOrDefault(cereal, 0f) //сколько контейнеров есть
+
+        return if (currentAmount >= amount) { //если количество крупы в контейнере больше или равно запрашиваемому
+            containers[cereal] = currentAmount - amount //вычитаем запрашиваемое количество
+            amount //возвращаем запрашиваемое количество
         } else {
-            storage[cereal] = 0f
-            currentAmount
+            containers[cereal] = 0f
+            currentAmount //возвращаем остаток
         }
     }
 
     override fun removeContainer(cereal: Cereal): Boolean {
-        val currentAmount = storage.getOrDefault(cereal, 0f)
-        if (currentAmount > 0) {
-            return false
+        return if (containers.getOrDefault(cereal, 0f) == 0f) {
+            containers.remove(cereal)
+            true //контейнер уничтожен
+        } else {
+            false //контейнер не пуст
         }
-        storage.remove(cereal)
-        totalContainers--
-        return true
     }
 
     override fun getAmount(cereal: Cereal): Float {
-        return storage.getOrDefault(cereal, 0f)
+        return containers.getOrDefault(cereal, 0f)
     }
 
     override fun getSpace(cereal: Cereal): Float {
-        val currentAmount = storage.getOrDefault(cereal, 0f)
-        return if (currentAmount >= containerCapacity) {
-            0f
-        } else {
-            containerCapacity - currentAmount
-        }
+        val currentAmount = containers.getOrDefault(cereal, 0f)
+        return containerCapacity - currentAmount
     }
 
     override fun toString(): String {
-        TODO("Not yet implemented")
+        return containers.entries.joinToString(", ") { "${it.key.name}: ${it.value}" }
     }
 
 }
