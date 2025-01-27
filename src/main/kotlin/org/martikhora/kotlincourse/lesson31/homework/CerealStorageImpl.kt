@@ -17,17 +17,25 @@ class CerealStorageImpl(
     }
 
     private val containers = mutableMapOf<Cereal, Float>() //что лежит в контейнере + сколько
+    private var totalContainers = 0
+
     override fun addCereal(cereal: Cereal, amount: Float): Float {
         require(amount >= 0) { "Количество не может быть отрицательным" }
 
+
         val currentAmount = containers.getOrDefault(cereal, 0f) //сколько контейнеров есть
         val availableSpace = getSpace(cereal) //проверяем, сколько места в контейнере
+
+        if (totalContainers * containerCapacity >= storageCapacity) {
+            throw IllegalStateException("Нельзя добавить больше контейнеров, склад заполнен")
+        }
 
         return if (availableSpace >= amount) { //если доступное место больше или равно количеству
             containers[cereal] = currentAmount + amount
             0f //возвращаем 0, все добавлено, остатка нет
         } else {
             containers[cereal] = currentAmount + availableSpace
+            totalContainers++
             amount - availableSpace // возвращаем остаток
         }
     }

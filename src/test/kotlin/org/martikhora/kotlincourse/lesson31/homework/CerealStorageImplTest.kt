@@ -36,6 +36,12 @@ internal class CerealStorageImplTest {
     }
 
     @Test
+    fun `addCereal should throw IllegalStateException if storage is full`(): Unit = with (storage) {
+        addCereal(Cereal.RICE, 15f)
+        addCereal(Cereal.BUCKWHEAT, 15f)
+    }
+
+    @Test
     fun `getCereal should throw IllegalArgumentException if amount is negative`() {
         assertThrows(IllegalArgumentException::class.java) {
             storage.getCereal(Cereal.RICE, -5f)
